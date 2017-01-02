@@ -1,0 +1,3 @@
+<div class="board-link" *ngFor="#board of boards">
+    <div (click)="boardSelect(board.id)">{{ board.title }}</div>
+</div>
