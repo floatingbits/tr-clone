@@ -30,6 +30,7 @@ System.register(['angular2/core', 'angular2/http', './board.service'], function(
                 }
                 BoardComponent.prototype.boardSelect = function (boardId) {
                     this.selectedID = boardId;
+                    this.getBoard(this.selectedID);
                 };
                 BoardComponent.prototype.ngOnInit = function () {
                     this.getBoards();
@@ -38,6 +39,21 @@ System.register(['angular2/core', 'angular2/http', './board.service'], function(
                     var _this = this;
                     this._boardService.getBoards()
                         .subscribe(function (boards) { return _this.boards = boards; }, function (error) { return _this.errorMessage = error; });
+                };
+                BoardComponent.prototype.getBoard = function (boardId) {
+                    var _this = this;
+                    this._boardService.getBoard(boardId)
+                        .subscribe(function (board) {
+                        _this.selectedBoard = board;
+                        _this.getBoardLists(board.id);
+                    }, function (error) { return _this.errorMessage = error; });
+                };
+                BoardComponent.prototype.getBoardLists = function (boardId) {
+                    var _this = this;
+                    this._boardService.getBoardLists(boardId)
+                        .subscribe(function (lists) {
+                        _this.selectedBoard.lists = lists;
+                    }, function (error) { return _this.errorMessage = error; });
                 };
                 BoardComponent = __decorate([
                     core_1.Component({

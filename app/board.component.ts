@@ -15,23 +15,45 @@ export class BoardComponent implements OnInit {
     selectedID: number;
     boardLink: string;
     display: string;
+    selectedBoard: Board;
 
     constructor (private _boardService: BoardService) {}
 
     boardSelect(boardId: number) {
         this.selectedID = boardId;
-
+        this.getBoard(this.selectedID);
     }
 
     ngOnInit() {
         this.getBoards();
     }
 
-    getBoards() {
+    private getBoards() {
         this._boardService.getBoards()
             .subscribe(
                 boards => this.boards = boards,
                 error => this.errorMessage = <any>error
             );
+    }
+
+    private getBoard(boardId: number) {
+        this._boardService.getBoard(boardId)
+            .subscribe(
+            board => {
+                this.selectedBoard = board;
+                this.getBoardLists(board.id);
+            },
+            error => this.errorMessage = <any>error
+        );
+    }
+
+    private getBoardLists(boardId: number) {
+        this._boardService.getBoardLists(boardId)
+            .subscribe(
+            lists => {
+                this.selectedBoard.lists = lists
+            },
+            error => this.errorMessage = <any>error
+        );
     }
 }

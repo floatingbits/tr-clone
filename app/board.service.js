@@ -31,7 +31,19 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                 }
                 BoardService.prototype.getBoards = function () {
                     return this.http.get(this.boardApiUrl)
-                        .map(function (res) { return res.json().items; })
+                        .map(function (res) { return res.json(); })
+                        .do(function (data) { return console.log(data); })
+                        .catch(this.errorHandler);
+                };
+                BoardService.prototype.getBoard = function (boardId) {
+                    return this.http.get(this.boardApiUrl + '/' + boardId)
+                        .map(function (res) { return res.json(); })
+                        .do(function (data) { return console.log(data); })
+                        .catch(this.errorHandler);
+                };
+                BoardService.prototype.getBoardLists = function (boardId) {
+                    return this.http.get(this.boardApiUrl + '/' + boardId + '/lists')
+                        .map(function (res) { return res.json(); })
                         .do(function (data) { return console.log(data); })
                         .catch(this.errorHandler);
                 };
