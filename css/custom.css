@@ -1,3 +1,13 @@
 .header-bar {
 
 }
+body {
+    background-color: rgb(0, 121, 191);
+    color: #fff;
+}
+
+.list {
+    border-radius: 5px;
+    background-color: #E2E4E6;
+    color: black;
+}
