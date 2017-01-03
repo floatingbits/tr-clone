@@ -1,3 +1,21 @@
-<div class="board-link" *ngFor="#board of boards">
-    <div (click)="boardSelect(board.id)">{{ board.title }}</div>
+<div class="board-selector">
+    <div class="board-link button" *ngFor="#board of boards">
+        <div (click)="boardSelect(board.id)">{{ board.title }}</div>
+    </div>
+</div>
+<div class="current-board" *ngIf="selectedBoard">
+    <h2>{{ selectedBoard.title }}</h2>
+        <div class="container">
+            <div class="list two columns" *ngFor="#list of selectedBoard.lists">
+                <h4>{{ list.title }}</h4>
+                <ul>
+                    <li class="card" *ngFor="#card of list.cards">{{card.title}}</li>
+                    <li class="button" (click)="addCardToList(list)">Add Card</li>
+                </ul>
+            </div>
+            <div class="list two columns">
+            <h4>Add List</h4>
+
+            </div>
+        </div>
 </div>

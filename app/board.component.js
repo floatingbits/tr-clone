@@ -35,6 +35,10 @@ System.register(['angular2/core', 'angular2/http', './board.service'], function(
                 BoardComponent.prototype.ngOnInit = function () {
                     this.getBoards();
                 };
+                BoardComponent.prototype.addCardToList = function (list) {
+                    var newCard = { id: 0, title: 'newCard' };
+                    list.cards.push(newCard);
+                };
                 BoardComponent.prototype.getBoards = function () {
                     var _this = this;
                     this._boardService.getBoards()

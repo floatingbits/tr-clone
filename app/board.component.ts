@@ -1,6 +1,7 @@
 import {Component, OnInit} from 'angular2/core';
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {Board} from './board';
+import {Card} from './card';
 import {BoardService} from './board.service';
 
 @Component({
@@ -26,6 +27,11 @@ export class BoardComponent implements OnInit {
 
     ngOnInit() {
         this.getBoards();
+    }
+
+    addCardToList(list: CardList) {
+        let newCard = {id: 0, title: 'newCard'};
+        list.cards.push(newCard);
     }
 
     private getBoards() {
