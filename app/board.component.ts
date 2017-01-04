@@ -1,13 +1,15 @@
-import {Component, OnInit} from 'angular2/core';
-import {HTTP_PROVIDERS} from 'angular2/http';
+import {Component, OnInit} from '@angular/core';
 import {Board} from './board';
 import {Card} from './card';
 import {BoardService} from './board.service';
+import { NDV_DIRECTIVES } from 'angular2-click-to-edit/components';
+
 
 @Component({
     selector: 'my-board',
     templateUrl: '../templates/board.html',
-    providers: [HTTP_PROVIDERS, BoardService]
+    providers: [BoardService],
+    directives: [NDV_DIRECTIVES]
 })
 
 export class BoardComponent implements OnInit {
@@ -24,6 +26,9 @@ export class BoardComponent implements OnInit {
         this.selectedID = boardId;
         this.getBoard(this.selectedID);
     }
+    checkPermissions() {
+       return true;
+    }
 
     ngOnInit() {
         this.getBoards();
@@ -34,11 +39,25 @@ export class BoardComponent implements OnInit {
         list.cards.push(newCard);
     }
 
+    addNewList() {
+        let newList = {id: 0, title: 'new list', cards: []};
+        this.selectedBoard.lists.push(newList);
+    }
+
+    save() {
+
+    }
+
     private getBoards() {
         this._boardService.getBoards()
             .subscribe(
-                boards => this.boards = boards,
-                error => this.errorMessage = <any>error
+                boards => {
+                    this.boards = boards;
+                    if (this.boards.length) {
+                        this.boardSelect(this.boards[0].id);
+                    }
+                },
+                        error => this.errorMessage = <any>error
             );
     }
 

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', './board.service'], function(exports_1, context_1) {
+System.register(['@angular/core', './board.service', 'angular2-click-to-edit/components'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,18 +10,18 @@ System.register(['angular2/core', 'angular2/http', './board.service'], function(
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, board_service_1;
+    var core_1, board_service_1, components_1;
     var BoardComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (http_1_1) {
-                http_1 = http_1_1;
-            },
             function (board_service_1_1) {
                 board_service_1 = board_service_1_1;
+            },
+            function (components_1_1) {
+                components_1 = components_1_1;
             }],
         execute: function() {
             BoardComponent = (function () {
@@ -32,6 +32,9 @@ System.register(['angular2/core', 'angular2/http', './board.service'], function(
                     this.selectedID = boardId;
                     this.getBoard(this.selectedID);
                 };
+                BoardComponent.prototype.checkPermissions = function () {
+                    return true;
+                };
                 BoardComponent.prototype.ngOnInit = function () {
                     this.getBoards();
                 };
@@ -39,10 +42,21 @@ System.register(['angular2/core', 'angular2/http', './board.service'], function(
                     var newCard = { id: 0, title: 'newCard' };
                     list.cards.push(newCard);
                 };
+                BoardComponent.prototype.addNewList = function () {
+                    var newList = { id: 0, title: 'new list', cards: [] };
+                    this.selectedBoard.lists.push(newList);
+                };
+                BoardComponent.prototype.save = function () {
+                };
                 BoardComponent.prototype.getBoards = function () {
                     var _this = this;
                     this._boardService.getBoards()
-                        .subscribe(function (boards) { return _this.boards = boards; }, function (error) { return _this.errorMessage = error; });
+                        .subscribe(function (boards) {
+                        _this.boards = boards;
+                        if (_this.boards.length) {
+                            _this.boardSelect(_this.boards[0].id);
+                        }
+                    }, function (error) { return _this.errorMessage = error; });
                 };
                 BoardComponent.prototype.getBoard = function (boardId) {
                     var _this = this;
@@ -63,7 +77,8 @@ System.register(['angular2/core', 'angular2/http', './board.service'], function(
                     core_1.Component({
                         selector: 'my-board',
                         templateUrl: '../templates/board.html',
-                        providers: [http_1.HTTP_PROVIDERS, board_service_1.BoardService]
+                        providers: [board_service_1.BoardService],
+                        directives: [components_1.NDV_DIRECTIVES]
                     }), 
                     __metadata('design:paramtypes', [board_service_1.BoardService])
                 ], BoardComponent);

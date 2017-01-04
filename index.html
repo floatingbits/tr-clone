@@ -5,12 +5,10 @@
 
     <script src="node_modules/es6-shim/es6-shim.min.js"></script>
     <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
-    <script src="node_modules/angular2/bundles/angular2-polyfills.js"></script>
     <script src="node_modules/systemjs/dist/system.src.js"></script>
-    <script src="node_modules/rxjs/bundles/Rx.js"></script>
-    <script src="node_modules/angular2/bundles/http.dev.js"></script>
-    <script src="node_modules/angular2/bundles/router.dev.js"></script>
-    <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="https://unpkg.com/reflect-metadata@0.1.3"></script>
+
 
     <link href="css/normalize.css" rel="stylesheet">
     <link href="css/skeleton.css" rel="stylesheet">
@@ -19,14 +17,64 @@
     <base href="/">
 
     <script>
+        var packages = {
+            'app': { main: 'main.js',  defaultExtension: 'js' },
+            'rxjs': { defaultExtension: 'js' },
+            'angular2-in-memory-web-api': { defaultExtension: 'js' },
+            'angular2-click-to-edit': { main: 'index' }
+        };
+
+        var packageNames = [
+            '@angular/common',
+            '@angular/compiler',
+            '@angular/core', // <--------
+            '@angular/http',
+            '@angular/platform-browser',
+            '@angular/platform-browser-dynamic',
+            '@angular/router',
+            '@angular/router-deprecated',
+            '@angular/testing',
+            '@angular/upgrade'
+        ];
+
+        packageNames.forEach(function(pkgName) {
+            packages[pkgName] = { main: 'index.js', defaultExtension: 'js' };
+        });
         System.config({
+            paths: {
+                // paths serve as alias
+                'npm:': 'node_modules/'
+            },
             packages: {
                 app: {
-                    format: 'register',
+                    main: './app.js',
                     defaultExtension: 'js'
-                }
+                },
+                rxjs: {
+                    defaultExtension: 'js'
+                },
+                'angular2-click-to-edit': { main: 'index' }
+            },
+            map: {
+                app: 'app',
+
+                // angular bundles
+                '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
+                '@angular/common': 'npm:@angular/common/bundles/common.umd.js',
+                '@angular/compiler': 'npm:@angular/compiler/bundles/compiler.umd.js',
+                '@angular/platform-browser': 'npm:@angular/platform-browser/bundles/platform-browser.umd.js',
+                '@angular/platform-browser-dynamic': 'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
+                '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
+                '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
+                '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
+
+                // other libraries
+                'rxjs':                      'npm:rxjs',
+                'angular2-click-to-edit': 'node_modules/angular2-click-to-edit'
             }
+
         });
+
         System.import('app/app')
                 .then(null, console.error.bind(console));
     </script>

@@ -1,18 +1,18 @@
-System.register(['angular2/platform/browser', './main.component', 'rxjs/Rx'], function(exports_1, context_1) {
+System.register(['@angular/platform-browser-dynamic', './app.module', 'rxjs/Rx'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var browser_1, main_component_1;
+    var platform_browser_dynamic_1, app_module_1;
     return {
         setters:[
-            function (browser_1_1) {
-                browser_1 = browser_1_1;
+            function (platform_browser_dynamic_1_1) {
+                platform_browser_dynamic_1 = platform_browser_dynamic_1_1;
             },
-            function (main_component_1_1) {
-                main_component_1 = main_component_1_1;
+            function (app_module_1_1) {
+                app_module_1 = app_module_1_1;
             },
             function (_1) {}],
         execute: function() {
-            browser_1.bootstrap(main_component_1.MainComponent);
+            platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(app_module_1.AppModule);
         }
     }
 });

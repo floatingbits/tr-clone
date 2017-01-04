@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {BoardComponent} from './board.component';
 @Component({
     selector: 'my-app',
