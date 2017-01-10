@@ -2,13 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {Board} from './board';
 import {Card} from './card';
 import {BoardService} from './board.service';
+import {CardListService} from './cardList.service';
 import { NDV_DIRECTIVES } from 'angular2-click-to-edit/components';
 
 
 @Component({
     selector: 'my-board',
     templateUrl: '../templates/board.html',
-    providers: [BoardService],
+    providers: [BoardService, CardListService],
     directives: [NDV_DIRECTIVES]
 })
 
@@ -20,7 +21,7 @@ export class BoardComponent implements OnInit {
     display: string;
     selectedBoard: Board;
 
-    constructor (private _boardService: BoardService) {}
+    constructor (private _boardService: BoardService, private _listService: CardListService ) {}
 
     boardSelect(boardId: number) {
         this.selectedID = boardId;
@@ -40,12 +41,18 @@ export class BoardComponent implements OnInit {
     }
 
     addNewList() {
-        let newList = {id: 0, title: 'new list', cards: []};
-        this.selectedBoard.lists.push(newList);
+        let newList = {id: 0, boardId: this.selectedBoard.id, title: 'new list', cards: []};
+        this._listService.storeList(newList).subscribe(
+            newList => this.selectedBoard.lists.push(newList)
+        );
+
     }
 
-    save() {
+    save(event, list: CardList) {
+        list.title = event.title;
+        this._listService.updateList(list).subscribe(
 
+        );
     }
 
     private getBoards() {
