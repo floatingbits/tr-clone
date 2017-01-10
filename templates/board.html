@@ -7,7 +7,7 @@
     <h2>{{ selectedBoard.title }}</h2>
         <div class="container">
             <div class="list two columns" *ngFor="let list of selectedBoard.lists">
-                <h4><ndv-edit [title]="'title'" [permission]="checkPermissions(perm)" [placeholder]='list.title' (onSave)='save($event)'></ndv-edit></h4>
+                <h4><ndv-edit [title]="'title'" [permission]="checkPermissions(perm)" [placeholder]='list.title' (onSave)='save($event, list)'></ndv-edit></h4>
                 <ul>
                     <li class="card" *ngFor="let card of list.cards">
                         <!--<ndv-edit [title]="'title'" [permission]="checkPermissions(perm)" [placeholder]='card.title' (onSave)='save($event)'></ndv-edit>-->
