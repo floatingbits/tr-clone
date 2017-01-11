@@ -50,7 +50,9 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Observable'], function(
                         .catch(this.errorHandler);
                 };
                 CardListService.prototype.updateList = function (cardList) {
-                    var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+                    var headers = new http_1.Headers({
+                        'Content-Type': 'application/json',
+                        'Cookie': 'XDEBUG_SESSION=XDEBUG_ECLIPSE' });
                     var options = new http_1.RequestOptions({ headers: headers });
                     return this.http.put(this.listApiUrl + '/' + cardList.id, cardList, options)
                         .map(function (res) { return res.json(); })

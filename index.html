@@ -13,6 +13,7 @@
     <link href="css/normalize.css" rel="stylesheet">
     <link href="css/skeleton.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
+    <link href="node_modules/dragula/dist/dragula.css" rel="stylesheet">
 
     <base href="/">
 
@@ -53,7 +54,10 @@
                 rxjs: {
                     defaultExtension: 'js'
                 },
-                'angular2-click-to-edit': { main: 'index' }
+                'angular2-click-to-edit': { main: 'index' },
+                'ng2-dragula': { main: 'index' },
+                'dragula': { main: 'dragula' },
+
             },
             map: {
                 app: 'app',
@@ -70,7 +74,10 @@
 
                 // other libraries
                 'rxjs':                      'npm:rxjs',
-                'angular2-click-to-edit': 'node_modules/angular2-click-to-edit'
+                'angular2-click-to-edit': 'node_modules/angular2-click-to-edit',
+                'ng2-dragula': 'npm:ng2-dragula',
+                'dragula': 'npm:dragula/dist'
+
             }
 
         });

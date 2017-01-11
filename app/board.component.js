@@ -1,4 +1,4 @@
-System.register(['@angular/core', './board.service', './cardList.service', 'angular2-click-to-edit/components'], function(exports_1, context_1) {
+System.register(['@angular/core', './board.service', './cardList.service', 'angular2-click-to-edit/components', 'ng2-dragula'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', './board.service', './cardList.service', 'angu
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, board_service_1, cardList_service_1, components_1;
+    var core_1, board_service_1, cardList_service_1, components_1, ng2_dragula_1;
     var BoardComponent;
     return {
         setters:[
@@ -25,12 +25,22 @@ System.register(['@angular/core', './board.service', './cardList.service', 'angu
             },
             function (components_1_1) {
                 components_1 = components_1_1;
+            },
+            function (ng2_dragula_1_1) {
+                ng2_dragula_1 = ng2_dragula_1_1;
             }],
         execute: function() {
             BoardComponent = (function () {
-                function BoardComponent(_boardService, _listService) {
+                function BoardComponent(_boardService, _listService, dragulaService) {
+                    var _this = this;
                     this._boardService = _boardService;
                     this._listService = _listService;
+                    this.dragulaService = dragulaService;
+                    dragulaService.dropModel.subscribe(function (value) {
+                        _this.selectedBoard.lists.forEach(function (list) {
+                            _this._listService.updateList(list).subscribe();
+                        });
+                    });
                 }
                 BoardComponent.prototype.boardSelect = function (boardId) {
                     this.selectedID = boardId;
@@ -77,6 +87,7 @@ System.register(['@angular/core', './board.service', './cardList.service', 'angu
                     var _this = this;
                     this._boardService.getBoardLists(boardId)
                         .subscribe(function (lists) {
+                        _this.dragulaService.destroy('card-bag');
                         _this.selectedBoard.lists = lists;
                     }, function (error) { return _this.errorMessage = error; });
                 };
@@ -84,10 +95,10 @@ System.register(['@angular/core', './board.service', './cardList.service', 'angu
                     core_1.Component({
                         selector: 'my-board',
                         templateUrl: '../templates/board.html',
-                        providers: [board_service_1.BoardService, cardList_service_1.CardListService],
-                        directives: [components_1.NDV_DIRECTIVES]
+                        providers: [board_service_1.BoardService, cardList_service_1.CardListService, ng2_dragula_1.DragulaService],
+                        directives: [components_1.NDV_DIRECTIVES, ng2_dragula_1.Dragula]
                     }), 
-                    __metadata('design:paramtypes', [board_service_1.BoardService, cardList_service_1.CardListService])
+                    __metadata('design:paramtypes', [board_service_1.BoardService, cardList_service_1.CardListService, ng2_dragula_1.DragulaService])
                 ], BoardComponent);
                 return BoardComponent;
             }());

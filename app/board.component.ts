@@ -4,13 +4,14 @@ import {Card} from './card';
 import {BoardService} from './board.service';
 import {CardListService} from './cardList.service';
 import { NDV_DIRECTIVES } from 'angular2-click-to-edit/components';
+import {Dragula, DragulaService} from 'ng2-dragula';
 
 
 @Component({
     selector: 'my-board',
     templateUrl: '../templates/board.html',
-    providers: [BoardService, CardListService],
-    directives: [NDV_DIRECTIVES]
+    providers: [BoardService, CardListService, DragulaService],
+    directives: [NDV_DIRECTIVES, Dragula]
 })
 
 export class BoardComponent implements OnInit {
@@ -21,7 +22,14 @@ export class BoardComponent implements OnInit {
     display: string;
     selectedBoard: Board;
 
-    constructor (private _boardService: BoardService, private _listService: CardListService ) {}
+    constructor (private _boardService: BoardService, private _listService: CardListService, private dragulaService: DragulaService ) {
+        dragulaService.dropModel.subscribe((value) => {
+            this.selectedBoard.lists.forEach((list) => {
+                this._listService.updateList(list).subscribe();
+            })
+        });
+
+    }
 
     boardSelect(boardId: number) {
         this.selectedID = boardId;
@@ -72,6 +80,7 @@ export class BoardComponent implements OnInit {
         this._boardService.getBoard(boardId)
             .subscribe(
             board => {
+
                 this.selectedBoard = board;
                 this.getBoardLists(board.id);
             },
@@ -83,7 +92,8 @@ export class BoardComponent implements OnInit {
         this._boardService.getBoardLists(boardId)
             .subscribe(
             lists => {
-                this.selectedBoard.lists = lists
+                this.dragulaService.destroy('card-bag');
+                this.selectedBoard.lists = lists;
             },
             error => this.errorMessage = <any>error
         );

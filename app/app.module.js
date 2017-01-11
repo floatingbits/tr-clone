@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/platform-browser', './board.component', './main.component', 'angular2-click-to-edit/components', '@angular/forms', '@angular/http'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/platform-browser', './board.component', './main.component', 'angular2-click-to-edit/components', '@angular/forms', '@angular/http', 'ng2-dragula'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/platform-browser', './board.componen
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, platform_browser_1, board_component_1, main_component_1, components_1, forms_1, http_1;
+    var core_1, platform_browser_1, board_component_1, main_component_1, components_1, forms_1, http_1, ng2_dragula_1;
     var AppModule;
     return {
         setters:[
@@ -34,6 +34,9 @@ System.register(['@angular/core', '@angular/platform-browser', './board.componen
             },
             function (http_1_1) {
                 http_1 = http_1_1;
+            },
+            function (ng2_dragula_1_1) {
+                ng2_dragula_1 = ng2_dragula_1_1;
             }],
         execute: function() {
             AppModule = (function () {
@@ -41,7 +44,7 @@ System.register(['@angular/core', '@angular/platform-browser', './board.componen
                 }
                 AppModule = __decorate([
                     core_1.NgModule({
-                        imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, http_1.HttpModule],
+                        imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, http_1.HttpModule, ng2_dragula_1.DragulaModule],
                         declarations: [main_component_1.MainComponent, board_component_1.BoardComponent, components_1.NDV_DIRECTIVES],
                         bootstrap: [main_component_1.MainComponent],
                         providers: []

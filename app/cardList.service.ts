@@ -31,8 +31,11 @@ export class CardListService {
             .catch(this.errorHandler);
     }
     updateList(cardList: CardList) {
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        let headers = new Headers({
+                'Content-Type': 'application/json',
+                'Cookie': 'XDEBUG_SESSION=XDEBUG_ECLIPSE'}
+        );
+        let options = new RequestOptions({ headers: headers});
         return this.http.put(this.listApiUrl + '/' + cardList.id, cardList, options)
             .map(res => <CardList> res.json())
             .do(data => console.log(data))

@@ -5,15 +5,15 @@
 </div>
 <div class="current-board" *ngIf="selectedBoard">
     <h2>{{ selectedBoard.title }}</h2>
-        <div class="container">
-            <div class="list two columns" *ngFor="let list of selectedBoard.lists">
+        <div class="container" >
+            <div class="list two columns"  *ngFor="let list of selectedBoard.lists">
+            <span class="drag-symbol">&#x21d4;</span>
                 <h4><ndv-edit [title]="'title'" [permission]="checkPermissions(perm)" [placeholder]='list.title' (onSave)='save($event, list)'></ndv-edit></h4>
-                <ul>
-                    <li class="card" *ngFor="let card of list.cards">
+                <ul [dragula]='"card-bag"' [dragulaModel]='list.cards'>
+                    <li class="card"     *ngFor="let card of list.cards">
                         <!--<ndv-edit [title]="'title'" [permission]="checkPermissions(perm)" [placeholder]='card.title' (onSave)='save($event)'></ndv-edit>-->
                         {{ card.title }}
                     </li>
-                    <li class="button">Add Card</li>
                 </ul>
             </div>
             <div class="list two columns">

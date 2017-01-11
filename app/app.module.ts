@@ -5,10 +5,11 @@ import { MainComponent }  from './main.component';
 import { NDV_DIRECTIVES } from 'angular2-click-to-edit/components';
 import { FormsModule }   from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
+import { DragulaModule } from 'ng2-dragula';
 
 
 @NgModule({
-    imports:      [ BrowserModule, FormsModule, HttpModule ],
+    imports:      [ BrowserModule, FormsModule, HttpModule, DragulaModule ],
     declarations: [ MainComponent,BoardComponent, NDV_DIRECTIVES],
     bootstrap:    [ MainComponent ],
     providers:    [ ]
