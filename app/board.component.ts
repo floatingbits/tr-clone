@@ -24,7 +24,13 @@ export class BoardComponent implements OnInit {
 
     constructor (private _boardService: BoardService, private _listService: CardListService, private dragulaService: DragulaService ) {
         dragulaService.dropModel.subscribe((value) => {
+            let weight = 0;
             this.selectedBoard.lists.forEach((list) => {
+                list.weight = weight++;
+                let cardWeight = 0;
+                list.cards.forEach ((card) =>  {
+                    card.weight = cardWeight++;
+                });
                 this._listService.updateList(list).subscribe();
             })
         });
@@ -41,11 +47,27 @@ export class BoardComponent implements OnInit {
 
     ngOnInit() {
         this.getBoards();
+        this.dragulaService.setOptions('list-bag', {
+            moves: (el, source, handle, sibling):boolean => {
+                return handle.className == 'drag-handle';
+            }
+        });
+        this.dragulaService.setOptions('card-bag', {
+            moves: (el, source, handle, sibling):boolean => {
+                return handle.className == 'drag-handle-card';
+            }
+        });
     }
+
 
     addCardToList(list: CardList) {
         let newCard = {id: 0, title: 'newCard'};
         list.cards.push(newCard);
+        let cardWeight = 0;
+        list.cards.forEach ((card) =>  {
+            card.weight = cardWeight++;
+        });
+        this._listService.updateList(list).subscribe();
     }
 
     addNewList() {
@@ -56,12 +78,19 @@ export class BoardComponent implements OnInit {
 
     }
 
-    save(event, list: CardList) {
+    saveList(event, list: CardList) {
         list.title = event.title;
         this._listService.updateList(list).subscribe(
 
         );
     }
+    saveCard(event, card: Card, list: CardList) {
+        card.title = event.title;
+        this._listService.updateList(list).subscribe(
+
+        );
+    }
+
 
     private getBoards() {
         this._boardService.getBoards()

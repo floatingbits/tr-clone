@@ -37,7 +37,13 @@ System.register(['@angular/core', './board.service', './cardList.service', 'angu
                     this._listService = _listService;
                     this.dragulaService = dragulaService;
                     dragulaService.dropModel.subscribe(function (value) {
+                        var weight = 0;
                         _this.selectedBoard.lists.forEach(function (list) {
+                            list.weight = weight++;
+                            var cardWeight = 0;
+                            list.cards.forEach(function (card) {
+                                card.weight = cardWeight++;
+                            });
                             _this._listService.updateList(list).subscribe();
                         });
                     });
@@ -51,18 +57,37 @@ System.register(['@angular/core', './board.service', './cardList.service', 'angu
                 };
                 BoardComponent.prototype.ngOnInit = function () {
                     this.getBoards();
+                    this.dragulaService.setOptions('list-bag', {
+                        moves: function (el, source, handle, sibling) {
+                            return handle.className == 'drag-handle';
+                        }
+                    });
+                    this.dragulaService.setOptions('card-bag', {
+                        moves: function (el, source, handle, sibling) {
+                            return handle.className == 'drag-handle-card';
+                        }
+                    });
                 };
                 BoardComponent.prototype.addCardToList = function (list) {
                     var newCard = { id: 0, title: 'newCard' };
                     list.cards.push(newCard);
+                    var cardWeight = 0;
+                    list.cards.forEach(function (card) {
+                        card.weight = cardWeight++;
+                    });
+                    this._listService.updateList(list).subscribe();
                 };
                 BoardComponent.prototype.addNewList = function () {
                     var _this = this;
                     var newList = { id: 0, boardId: this.selectedBoard.id, title: 'new list', cards: [] };
                     this._listService.storeList(newList).subscribe(function (newList) { return _this.selectedBoard.lists.push(newList); });
                 };
-                BoardComponent.prototype.save = function (event, list) {
+                BoardComponent.prototype.saveList = function (event, list) {
                     list.title = event.title;
+                    this._listService.updateList(list).subscribe();
+                };
+                BoardComponent.prototype.saveCard = function (event, card, list) {
+                    card.title = event.title;
                     this._listService.updateList(list).subscribe();
                 };
                 BoardComponent.prototype.getBoards = function () {
