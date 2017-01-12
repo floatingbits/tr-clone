@@ -1,6 +1,9 @@
 .header-bar {
 
 }
+.container {
+    max-width: 1500px;
+}
 body {
     background-color: rgb(0, 121, 191);
     color: #fff;
@@ -11,4 +14,26 @@ body {
     background-color: #E2E4E6;
     color: black;
     padding: 5px;
+}
+
+li {
+    list-style: none;
+}
+ul.cards {
+    min-height: 30px;
+}
+li.card {
+    border-radius: 5px;
+    background-color: #f2f4f6;
+}
+.ndv-comp textarea{
+    width: 140%;
+}
+
+.drag-handle, .drag-handle-card {
+    cursor: all-scroll;
+}
+
+.drag-handle-card  {
+    position: absolute;
 }
